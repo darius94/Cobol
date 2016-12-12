@@ -1,0 +1,173 @@
+000100 IDENTIFICATION DIVISION.                                         00010000
+000200 PROGRAM-ID.    HEADER.                                           00020018
+000300 AUTHOR.        CSU0041 DARIUS LITTLE.                            00030017
+000400**************************************************************    00040000
+000500*                                                            *    00050000
+000600*    ACCOUNTS RECEIVABLE PROGRAM SERIES FOR CPSC3111, ETC.   *    00060000
+000700*    FORMAT OF THE SELECT STATEMENT FOR THE DATA FILES USED. *    00070000
+000800*                                                            *    00080000
+000900**************************************************************    00090000
+001000                                                                  00100000
+001100 ENVIRONMENT DIVISION.                                            00110000
+001200 CONFIGURATION SECTION.                                           00120001
+001300 SOURCE-COMPUTER.                                                 00130001
+001400     Z13                                                          00140001
+001500     WITH DEBUGGING MODE                                          00150001
+001600     .                                                            00160001
+001700                                                                  00170001
+001800 INPUT-OUTPUT SECTION.                                            00180000
+001900 FILE-CONTROL.                                                    00190000
+002000     SELECT INV-FILE              ASSIGN TO MYINFILE.             00200013
+002100     SELECT PRINT-FILE            ASSIGN TO MYREPORT.             00210000
+002200                                                                  00220000
+002300 DATA DIVISION.                                                   00230000
+002400 FILE SECTION.                                                    00240000
+002500                                                                  00250000
+002600 FD  INV-FILE                                                     00260013
+002700     RECORDING MODE IS F.                                         00270000
+002800 01  INV-REC.                                                     00280010
+002900     10  FILLER                  PIC X(080).                      00290000
+003000                                                                  00300000
+003100 FD  PRINT-FILE                                                   00310000
+003200     RECORDING MODE IS F.                                         00320000
+003300 01  PRINT-REC.                                                   00330000
+003400     10  FILLER                  PIC X(132).                      00340000
+003500                                                                  00350000
+003600 WORKING-STORAGE SECTION.                                         00360000
+003700                                                                  00370000
+003800 01  WS-COUNTERS-FLAGS.                                           00380000
+003900     10  EOF-FLAG                PIC X(03) VALUE "NO ".           00390000
+004000     10  WS-SPACING              PIC 9(01) VALUE 2.               00400000
+004100     10  REC-COUNT               PIC 9(05) VALUE ZERO.            00410000
+004200     10  WS-LINE-COUNT           PIC 9(03) VALUE 0.               00420018
+004300     10  WS-PAGE                 PIC 9(03) VALUE 0.               00430018
+004400                                                                  00440000
+004500     COPY RECEIVE.                                                00450000
+004600                                                                  00460004
+004700 01  WS-PRINT-REC                VALUE SPACES.                    00470005
+004800     10  FILLER                  PIC X(01).                       00480034
+004900     10  PR-CUST                 PIC X(08).                       00490007
+005000     10  FILLER                  PIC X(02).                       00500007
+005100     10  PR-NAME                 PIC X(20).                       00510007
+005200     10  FILLER                  PIC X(02).                       00520007
+005300     10  PR-INV                  PIC X(08).                       00530007
+005400     10  FILLER                  PIC X(02).                       00540007
+005500     10  PR-DATE                 PIC XX/XX/XX.                    00550020
+005600     10  FILLER                  PIC X(02).                       00560007
+005700     10  PR-AMT                  PIC ZZ,ZZZ.99.                   00570007
+005800     10  FILLER                  PIC X(02).                       00580007
+005900     10  PR-DUE                  PIC XX/XX/XX.                    00590020
+006000     10  FILLER                  PIC X(02).                       00600007
+006100     10  PR-CTR                  PIC X(05).                       00610007
+006200     10  FILLER                  PIC X(56).                       00620007
+006300                                                                  00630034
+006400 01  WS-DATE.                                                     00640018
+006500     10  YY                      PIC 9(02).                       00650018
+006600     10  MM                      PIC 9(02).                       00660018
+006700     10  DD                      PIC 9(02).                       00670018
+006800                                                                  00680018
+006900 01  WS-TIME.                                                     00690018
+007000     10  HH                      PIC 9(02).                       00700018
+007100     10  MN                      PIC 9(02).                       00710018
+007200     10  SS                      PIC 9(02).                       00720018
+007300     10  MS                      PIC 9(02).                       00730018
+007400                                                                  00740018
+007500 01  HEADING-1.                                                   00750018
+007600     10  FILLER                  PIC X(02) VALUE SPACES.          00760018
+007700     10  H-DATE.                                                  00770018
+007800         15  H-MM                PIC 9(02).                       00780018
+007900         15  H-SLASH1            PIC X(01) VALUE '/'.             00790018
+008000         15  H-DD                PIC 9(02).                       00800018
+008100         15  H-SLASH2            PIC X(01) VALUE '/'.             00810018
+008200         15  H-YY                PIC 9(02).                       00820018
+008300     10  FILLER                  PIC X(03) VALUE SPACES.          00830018
+008400     10  H-TIME.                                                  00840018
+008500         15  H-HH                PIC Z9.                          00850018
+008600         15  H-COLON             PIC X(01) VALUE ':'.             00860018
+008700         15  H-MN                PIC 9(02).                       00870018
+008800     10  FILLER                  PIC X(04) VALUE SPACES.          00880018
+008900     10  FILLER                  PIC X(40) VALUE                  00890018
+009000         'PROGRAM 2, (41) DARIUS LITTLE          '.               00900018
+009100     10  FILLER                  PIC X(05) VALUE SPACES.          00910018
+009200     10  FILLER                  PIC X(06) VALUE 'PAGE: '.        00920018
+009300     10  H-PAGE                  PIC Z(03).                       00930018
+009400                                                                  00940018
+009500 01  HEADING-2.                                                   00950018
+009600     10  FILLER                  PIC X(40) VALUE                  00960018
+009700         ' VENDOR #  VENDOR NAME           INV NBR'.              00970034
+009800     10  FILLER                  PIC X(40) VALUE                  00980018
+009900         '   INV DATE     AMOUNT  DUE DATE  CCTR  '.              00990034
+010000                                                                  01000006
+010100 PROCEDURE DIVISION.                                              01010006
+010200                                                                  01020006
+010300 010-START-HERE.                                                  01030006
+010400     OPEN INPUT INV-FILE                                          01040015
+010500     OPEN OUTPUT PRINT-FILE                                       01050006
+010600     PERFORM 100-READ-INPUT                                       01060006
+010700     PERFORM 850-GET-DATE                                         01070018
+010800     PERFORM 800-PRINT-HEADINGS                                   01080018
+010900                                                                  01090006
+011000     PERFORM 300-PROCESS-DATA                                     01100006
+011100       UNTIL EOF-FLAG = "YES"                                     01110006
+011200                                                                  01120006
+011300     CLOSE INV-FILE                                               01130014
+011400     CLOSE PRINT-FILE                                             01140016
+011500     GOBACK.                                                      01150006
+011600                                                                  01160006
+011700 100-READ-INPUT.                                                  01170009
+011800     READ INV-FILE INTO WS-REC                                    01180006
+011900       AT END                                                     01190006
+012000         MOVE "YES" TO EOF-FLAG                                   01200006
+012100     END-READ                                                     01210006
+012200     ADD 1 TO REC-COUNT.                                          01220006
+012300                                                                  01230006
+012400 300-PROCESS-DATA.                                                01240006
+012500     MOVE REC-CUST TO PR-CUST                                     01250006
+012600     MOVE REC-NAME TO PR-NAME                                     01260006
+012700     MOVE REC-INV TO PR-INV                                       01270006
+012800     MOVE REC-INV-DATE TO PR-DATE                                 01280006
+012900     MOVE REC-INV-AMT TO PR-AMT                                   01290006
+013000     MOVE REC-INV-DUE TO PR-DUE                                   01300006
+013100     MOVE REC-COST-CTR TO PR-CTR                                  01310006
+013200     PERFORM 700-PRINT-LINE                                       01320018
+013300     PERFORM 100-READ-INPUT.                                      01330006
+013400                                                                  01340018
+013500 700-PRINT-LINE.                                                  01350018
+013600     PERFORM 750-WRITE                                            01360018
+013700     IF WS-LINE-COUNT > 50                                        01370018
+013800         PERFORM 800-PRINT-HEADINGS                               01380018
+013900     END-IF                                                       01390018
+014000     .                                                            01400018
+014100                                                                  01410018
+014200 750-WRITE.                                                       01420018
+014300     WRITE PRINT-REC FROM WS-PRINT-REC                            01430018
+014400       AFTER ADVANCING WS-SPACING LINES                           01440018
+014500     END-WRITE                                                    01450018
+014600     ADD WS-SPACING TO WS-LINE-COUNT                              01460018
+014700     MOVE 2 TO WS-SPACING                                         01470018
+014800     MOVE SPACES TO WS-PRINT-REC                                  01480018
+014900     .                                                            01490018
+015000                                                                  01500018
+015100 800-PRINT-HEADINGS.                                              01510018
+015200     ADD 1 TO WS-PAGE                                             01520018
+015300     MOVE WS-PAGE TO H-PAGE                                       01530018
+015400     WRITE PRINT-REC FROM HEADING-1                               01540018
+015500       AFTER ADVANCING PAGE                                       01550018
+015600     END-WRITE                                                    01560018
+015700     MOVE HEADING-2 TO WS-PRINT-REC                               01570018
+015800     MOVE 2 TO WS-SPACING                                         01580018
+015900     PERFORM 750-WRITE                                            01590018
+016000     MOVE 2 TO WS-SPACING                                         01600018
+016100     MOVE 0 TO WS-LINE-COUNT                                      01610018
+016200     .                                                            01620018
+016300                                                                  01630018
+016400 850-GET-DATE.                                                    01640018
+016500     ACCEPT WS-DATE FROM DATE                                     01650018
+016600     MOVE MM TO H-MM                                              01660018
+016700     MOVE DD TO H-DD                                              01670018
+016800     MOVE YY TO H-YY                                              01680018
+016900     ACCEPT WS-TIME FROM TIME                                     01690018
+017000     MOVE HH TO H-HH                                              01700018
+017100     MOVE MN TO H-MN                                              01710018
+017200     .                                                            01720018
+017300                                                                  01730018
